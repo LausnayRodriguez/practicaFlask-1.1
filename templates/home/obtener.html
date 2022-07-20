@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block perrito %}
+
+<div class="columns">
+    <div class="column"></div>
+    <div class="column">
+        <div class="box">
+            <form action="{{ url_for('update', id=datos.0) }}" method="post">
+                Ingresa usuario: <br>
+                <input type="text" value="{{ datos.1 }}" name="user_form" required class="input is-primary" type="text" placeholder="Usuario">
+                <br>
+                <br>
+                Ingresa contraseña: <br>
+                <input type="password" value="{{ datos.2 }}" required name="pw_form" class="input is-primary" type="text"
+                    placeholder="Contraseña"> <br>
+                <br>
+                <button type="submit" class="button is-danger">Enviar</button>
+            </form>
+        </div>
+    </div>
+    <div class="column"></div>
+</div>
+
+{% endblock %}

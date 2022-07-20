@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block perrito %}
+
+<div class="columns">
+    <div class="column"></div>
+    <div class="column">
+        <div class="box">
+            <form action="{{ url_for('insertar') }}" method="post">
+                Ingresa usuario: <br>
+                <input type="text" name="user_form" required class="input is-primary" type="text" placeholder="Usuario">
+                <br>
+                <br>
+                Ingresa contraseña: <br>
+                <input type="password" required name="pw_form" class="input is-primary" type="text"
+                    placeholder="Contraseña"> <br>
+                <br>
+                <button type="submit" class="button is-danger">Enviar</button>
+            </form>
+        </div>
+    </div>
+    <div class="column"></div>
+</div>
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Usuario</td>
+                <td>Contraseña</td>
+                <td>Actions</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for elemento in datos_mostrar %}
+            <tr>
+                <td>{{ elemento.1 }}</td>
+                <td>{{ elemento.2 }}</td>
+                <td>
+                    <a href="{{ url_for('borrar_dato', id=elemento.0) }}">Borrar</a>
+                    <a href="/actualiza/{{ elemento.0 }} ">Actualizar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
