@@ -2,23 +2,24 @@
 
 from flask import Flask, render_template, url_for, redirect, request
 from flask_mysqldb import MySQL
+from backend.database import actions
 
 
 app = Flask(__name__)
 
-app.config["MYSQL_HOST"] = "localhost"
-app.config["MYSQL_USER"] = "root"
-app.config["MYSQL_PASSWORD"] = "lauro"
+app.config["MYSQL_HOST"] = "mysql.perseoq.party"
+app.config["MYSQL_USER"] = "superanet"
+app.config["MYSQL_PASSWORD"] = "the37855"
 app.config["MYSQL_DB"] = "mydb"
-app.secret_key = "mi_llave"
+app.secret_key = "mi_llave" # Llave secreta para modificar el codigo (debugger)
 
-db = MySQL(app)
+MySQL(app) #c conexion a la base de datos
+my = actions # constructor del mini ORM (database.py)
 
 @app.route('/')
 def index():
-    cursor = db.connection.cursor()
-    cursor.execute("SELECT * FROM users")
-    datos = cursor.fetchall()
+    query = "SELECT * FROM users"
+    datos = my.fetchall(query) #fetchall es para mostrar datos
     return render_template("home/principal.html", datos_mostrar=datos)
 
 @app.route('/insertar', methods=["GET", "POST"])
@@ -26,9 +27,8 @@ def insertar():
     if request.method == "POST":
         usuario = request.form["user_form"]
         clave = request.form["pw_form"]
-        cursor = db.connection.cursor()
-        cursor.execute(f"INSERT INTO users(user,passw) VALUES('{usuario}', '{clave}')")
-        db.connection.commit()
+        query = f"INSERT INTO users(user,passw) VALUES('{usuario}', '{clave}')"
+        my.commit(query) # commit es para enviar 
         return redirect(url_for("index"))
 
     return redirect(url_for("index"))
